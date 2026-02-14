@@ -56,6 +56,8 @@ cursor:pointer;
 -webkit-tap-highlight-color: transparent;
 }
 
+button:active{transform:scale(.95)}
+
 #player{display:none;margin-top:15px}
 
 #noBtn2{
@@ -68,14 +70,25 @@ transform:translate(-50%,-50%);
 .floatName{
 position:fixed;
 bottom:-20px;
-animation:up 8s linear infinite;
-opacity:.8;
+animation:up linear forwards;
+opacity:.85;
 pointer-events:none;
 }
 
-@keyframes up{to{transform:translateY(-120vh);opacity:0}}
+@keyframes up{
+from{transform:translateY(0)}
+to{transform:translateY(-120vh);opacity:0}
+}
 
-#letter{white-space:pre-line;font-size:18px;line-height:1.7;min-height:200px}
+#letter{
+white-space:pre-wrap;
+word-wrap:break-word;
+font-size:18px;
+line-height:1.8;
+min-height:220px;
+text-align:left;
+padding:8px;
+}
 </style>
 </head>
 
@@ -89,13 +102,11 @@ pointer-events:none;
 
 <button onclick="startExperience()">Play & Start</button>
 
-<!-- SPOTIFY EMBED -->
 <div id="player">
 <iframe style="border-radius:12px"
 src="https://open.spotify.com/embed/track/5jkH9Pgv28mW9ve6uGtohT"
 width="100%" height="80"
 frameBorder="0"
-allowfullscreen=""
 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
 </iframe>
 </div>
@@ -150,7 +161,6 @@ document.getElementById(id).classList.add('show');
 /* PLAY INSIDE PAGE */
 function startExperience(){
 document.getElementById("player").style.display="block";
-
 setTimeout(()=>{
 show('q');
 ask();
@@ -167,43 +177,76 @@ if(qi<questions.length){
 ask();
 }else{
 show('letterPage');
-document.getElementById('letter').innerText="";
 setTimeout(typeLetter,300);
 }
 }
 
+/* FIXED LETTER TYPING */
 function typeLetter(){
-let text=`Hi choyal
-You slowly became the most important person in my life 🥺
-When everything feels wrong, you feel like home 🤍
+
+let text=`Hi choyal,
+
+Namma first friends dhaan… casual talks, random laughs, time pass chats…
+
+Aana epdi nu theriyama slowly nee en life-la romba mukkiyam aayita 🥺
+
+Friends irundhathu romba azhaga irundhuchu…
+aana lovers aana apram dhaan purinjidhu
+you are actually the best version of my life.
+
+Nee dhaan en sunshine ☀️
+
+When the whole world feels against me,
+I run to you… because you are my safest place 🤍
+
+Un kooda pesama oru naalum complete aagathu…
+
+Enaku nee romba romba pudikum…
+Life la enna nadandhaalum forever dhaan 🤞
+
 Happy Valentine’s Day 💘
 Always yours 🫶
 Dhivya`;
 
 let i=0;
-let el=document.getElementById('letter');
+const el=document.getElementById('letter');
+el.innerHTML="";
 
-let t=setInterval(()=>{
-el.innerText+=text[i++];
-if(i>=text.length)clearInterval(t);
-},28);
+function type(){
+if(i<text.length){
+el.innerHTML += text[i] === "\n" ? "<br>" : text[i];
+i++;
+setTimeout(type,28);
+}
+}
+type();
 }
 
 function showProposal(){show('proposal')}
 
+/* SMOOTH HEARTS */
 function yesAction(){
-for(let i=0;i<80;i++){
+let count=0;
+let interval=setInterval(()=>{
+if(count>40){clearInterval(interval);return;}
+
 let h=document.createElement('div');
 h.className='floatName';
 h.innerText=name;
 h.style.left=Math.random()*100+'%';
-h.style.fontSize=(14+Math.random()*26)+'px';
+h.style.fontSize=(16+Math.random()*28)+'px';
+h.style.animationDuration=(6+Math.random()*5)+'s';
+
 document.body.appendChild(h);
-setTimeout(()=>h.remove(),8000);
-}
+setTimeout(()=>h.remove(),9000);
+
+count++;
+},180);
+
 alert('Text me how you feel 🥹');
 }
 
+/* ESCAPING NO BUTTON */
 function move(b){
 let x=Math.random()*70+10;
 let y=Math.random()*70+10;
