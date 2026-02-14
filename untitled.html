@@ -1,47 +1,138 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For You ❤️</title>
+
 <style>
-body{margin:0;font-family:'Comic Sans MS',cursive;color:white;text-align:center;overflow:hidden;background:linear-gradient(135deg,#ff7aa2,#ff9a9e,#fbc2eb,#a18cd1);background-size:400% 400%;animation:bg 12s infinite alternate}
-@keyframes bg{0%{background-position:0% 50%}100%{background-position:100% 50%}}
-.page{display:none;min-height:100vh;align-items:center;justify-content:center;padding:20px}
+body{
+margin:0;
+font-family:'Comic Sans MS',cursive;
+color:white;
+text-align:center;
+overflow:hidden;
+background:linear-gradient(135deg,#ff7aa2,#ff9a9e,#fbc2eb,#a18cd1);
+background-size:400% 400%;
+animation:bg 12s infinite alternate;
+touch-action:manipulation;
+}
+
+@keyframes bg{
+0%{background-position:0% 50%}
+100%{background-position:100% 50%}
+}
+
+.page{
+display:none;
+min-height:100dvh;
+width:100%;
+align-items:center;
+justify-content:center;
+padding:20px;
+position:fixed;
+top:0;
+left:0;
+}
+
 .show{display:flex;flex-direction:column}
-.card{background:rgba(255,255,255,.2);backdrop-filter:blur(12px);padding:24px;border-radius:24px;max-width:520px;width:92%}
-button{padding:12px 26px;border:none;border-radius:40px;background:linear-gradient(45deg,#ff4d88,#ff9a9e);color:#fff;font-size:18px;margin:10px}
-#noBtn,#noBtn2{position:absolute}
-.floatName{position:fixed;bottom:-20px;animation:up 8s linear infinite;opacity:.8}
-@keyframes up{to{transform:translateY(-120vh);opacity:0}}
-#letter{white-space:pre-line;font-size:18px;line-height:1.7}
+
+.card{
+background:rgba(255,255,255,.2);
+backdrop-filter:blur(12px);
+padding:24px;
+border-radius:24px;
+max-width:520px;
+width:92%;
+position:relative;
+z-index:5;
+}
+
+button{
+padding:12px 26px;
+border:none;
+border-radius:40px;
+background:linear-gradient(45deg,#ff4d88,#ff9a9e);
+color:#fff;
+font-size:18px;
+margin:10px;
+cursor:pointer;
+z-index:10;
+position:relative;
+}
+
+button:active{transform:scale(.95)}
+
+#noBtn2{
+position:absolute;
+left:50%;
+top:65%;
+transform:translate(-50%,-50%);
+}
+
+.floatName{
+position:fixed;
+bottom:-20px;
+animation:up 8s linear infinite;
+opacity:.8;
+pointer-events:none; /* IMPORTANT FIX */
+z-index:1;
+}
+
+@keyframes up{
+to{transform:translateY(-120vh);opacity:0}
+}
+
+#letter{
+white-space:pre-line;
+font-size:18px;
+line-height:1.7;
+min-height:200px;
+}
+
 .pulse{animation:pulseBg 1s infinite alternate}
-@keyframes pulseBg{from{filter:brightness(1)}to{filter:brightness(1.25)}}
+
+@keyframes pulseBg{
+from{filter:brightness(1)}
+to{filter:brightness(1.25)}
+}
 </style>
 </head>
-<body><div id="start" class="page show">
+
+<body>
+
+<div id="start" class="page show">
 <div class="card">
 <h2>Play song first 🎧</h2>
 <p>Tap below — then continue</p>
 <button onclick="startExperience()">Play & Start</button>
 </div>
-</div><div id="q" class="page">
+</div>
+
+<div id="q" class="page">
 <div class="card">
 <h2 id="qText"></h2>
 <button onclick="nextQ()">Always remember ❤️</button>
 </div>
-</div><div id="letterPage" class="page">
+</div>
+
+<div id="letterPage" class="page">
 <div class="card">
 <h2>For you…</h2>
 <p id="letter"></p>
 <button onclick="showProposal()">Continue 💌</button>
 </div>
-</div><div id="proposal" class="page">
+</div>
+
+<div id="proposal" class="page">
 <div class="card">
 <h1>Will you be my Valentine? 💘</h1>
 <button onclick="yesAction()">YES</button>
-<button id="noBtn2" onmouseover="move(this)">No</button>
+<button id="noBtn2" ontouchstart="move(this)" onmouseover="move(this)">No</button>
 </div>
-</div><script>
+</div>
+
+<script>
 const spotify="https://open.spotify.com/track/5jkH9Pgv28mW9ve6uGtohT";
 const name="Choyal ❤️";
 
@@ -52,27 +143,45 @@ const questions=[
 "First hug? 🤍",
 "First kiss? ❤️"
 ];
+
 let qi=0;
 
-function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));document.getElementById(id).classList.add('show')}
-
-function startExperience(){window.open(spotify,'_blank');show('q');ask()}
-function ask(){document.getElementById('qText').innerText=name+"
-"+questions[qi]}
-function nextQ(){
-  const btn=document.querySelector('#q button');
-  btn.disabled=true;
-  setTimeout(()=>{btn.disabled=false;},350);
-  qi++;
-  if(qi<questions.length){
-    ask();
-  }else{
-    show('letterPage');
-    setTimeout(typeLetter,300);
-  }
+function show(id){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
+document.getElementById(id).classList.add('show');
 }
 
-function typeLetter(){show('letterPage');document.body.classList.add('pulse');let text=`Hi choyal
+function startExperience(){
+window.location.href=spotify; // mobile friendly
+setTimeout(()=>{
+show('q');
+ask();
+},800);
+}
+
+function ask(){
+document.getElementById('qText').innerText=name+"\n"+questions[qi];
+}
+
+function nextQ(){
+const btn=document.querySelector('#q button');
+btn.disabled=true;
+setTimeout(()=>{btn.disabled=false;},350);
+
+qi++;
+if(qi<questions.length){
+ask();
+}else{
+show('letterPage');
+document.getElementById('letter').innerText="";
+setTimeout(typeLetter,300);
+}
+}
+
+function typeLetter(){
+document.body.classList.add('pulse');
+
+let text=`Hi choyal
 Namma first friends dhaan… casual talks, random laughs, time pass chats…
 Aana epdi nu theriyama slowly nee en life-la romba mukkiyam aayita 🥺
 Friends irundhathu romba azhaga irundhuchu… aana lovers aana apram dhaan purinjidhu
@@ -90,12 +199,41 @@ Life la enna nadandhaalum forever dhaan 🤞
 Happy Valentine’s Day 💘
 Always yours 🫶
 Dhivya`;
-let i=0;let el=document.getElementById('letter');let t=setInterval(()=>{el.innerText+=text[i++];if(i>=text.length)clearInterval(t)},28)}
 
-function showProposal(){document.body.classList.remove('pulse');show('proposal')}
+let i=0;
+let el=document.getElementById('letter');
 
-function yesAction(){for(let i=0;i<80;i++){let h=document.createElement('div');h.className='floatName';h.innerText=name;h.style.left=Math.random()*100+'%';h.style.fontSize=(14+Math.random()*26)+'px';document.body.appendChild(h);setTimeout(()=>h.remove(),8000)}alert('Text me how you feel 🥹')}
+let t=setInterval(()=>{
+el.innerText+=text[i++];
+if(i>=text.length)clearInterval(t);
+},28);
+}
 
-function move(b){b.style.left=Math.random()*80+'%';b.style.top=Math.random()*80+'%'}
-</script></body>
+function showProposal(){
+document.body.classList.remove('pulse');
+show('proposal');
+}
+
+function yesAction(){
+for(let i=0;i<80;i++){
+let h=document.createElement('div');
+h.className='floatName';
+h.innerText=name;
+h.style.left=Math.random()*100+'%';
+h.style.fontSize=(14+Math.random()*26)+'px';
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),8000);
+}
+alert('Text me how you feel 🥹');
+}
+
+function move(b){
+let x=Math.random()*70+10;
+let y=Math.random()*70+10;
+b.style.left=x+'%';
+b.style.top=y+'%';
+}
+</script>
+
+</body>
 </html>
