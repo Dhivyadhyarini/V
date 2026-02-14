@@ -59,7 +59,18 @@ function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.remo
 function startExperience(){window.open(spotify,'_blank');show('q');ask()}
 function ask(){document.getElementById('qText').innerText=name+"
 "+questions[qi]}
-function nextQ(){qi++; if(qi<questions.length){ask()} else {typeLetter()}}
+function nextQ(){
+  const btn=document.querySelector('#q button');
+  btn.disabled=true;
+  setTimeout(()=>{btn.disabled=false;},350);
+  qi++;
+  if(qi<questions.length){
+    ask();
+  }else{
+    show('letterPage');
+    setTimeout(typeLetter,300);
+  }
+}
 
 function typeLetter(){show('letterPage');document.body.classList.add('pulse');let text=`Hi choyal
 Namma first friends dhaan… casual talks, random laughs, time pass chats…
