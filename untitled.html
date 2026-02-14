@@ -1,47 +1,90 @@
 <!DOCTYPE html><html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For You ❤️</title>
 <style>
-body{margin:0;font-family:'Comic Sans MS',cursive;text-align:center;color:white;overflow-x:hidden;background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb,#a6c1ee);background-size:400% 400%;animation:bg 12s infinite alternate}
-.heartBeatBg{animation:heartbeat 1.2s infinite}
+body{margin:0;font-family:'Comic Sans MS',cursive;color:white;text-align:center;overflow:hidden;background:linear-gradient(135deg,#ff7aa2,#ff9a9e,#fbc2eb,#a18cd1);background-size:400% 400%;animation:bg 12s infinite alternate}
 @keyframes bg{0%{background-position:0% 50%}100%{background-position:100% 50%}}
-@keyframes heartbeat{0%{transform:scale(1)}25%{transform:scale(1.02)}40%{transform:scale(0.98)}60%{transform:scale(1.03)}100%{transform:scale(1)}}
-.page{display:none;padding:12vh 10px}.show{display:block}
-.card{background:rgba(255,255,255,0.25);backdrop-filter:blur(12px);padding:18px;border-radius:25px;margin:auto;max-width:520px}
-button{padding:12px 24px;font-size:18px;border:none;border-radius:40px;margin:10px;cursor:pointer;background:linear-gradient(45deg,#ff4d88,#ff9a9e);color:white}
+.page{display:none;min-height:100vh;align-items:center;justify-content:center;padding:20px}
+.show{display:flex;flex-direction:column}
+.card{background:rgba(255,255,255,.2);backdrop-filter:blur(12px);padding:24px;border-radius:24px;max-width:520px;width:92%}
+button{padding:12px 26px;border:none;border-radius:40px;background:linear-gradient(45deg,#ff4d88,#ff9a9e);color:#fff;font-size:18px;margin:10px}
 #noBtn,#noBtn2{position:absolute}
-.floatName{position:fixed;bottom:-20px;animation:float 8s linear infinite}
-@keyframes float{to{transform:translateY(-120vh);opacity:0}}
+.floatName{position:fixed;bottom:-20px;animation:up 8s linear infinite;opacity:.8}
+@keyframes up{to{transform:translateY(-120vh);opacity:0}}
+#letter{white-space:pre-line;font-size:18px;line-height:1.7}
+.pulse{animation:pulseBg 1s infinite alternate}
+@keyframes pulseBg{from{filter:brightness(1)}to{filter:brightness(1.25)}}
 </style>
 </head>
-<body><!-- AUDIO --><audio id="song" loop src="https://open.spotify.com/track/5jkH9Pgv28mW9ve6uGtohT"></audio> <audio id="beat" loop src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d1b1c3a3b.mp3"></audio>
-
-<!-- START --><div id="start" class="page show"><div class="card"><h2>Put volume high 🎧</h2><button onclick="startAll()">Play & Start</button></div></div><!-- QUESTIONS --><div id="q1" class="page"><div class="card"><h2>Do you remember our first chat? 🥺</h2><button onclick="next('q2')">Yes</button></div></div>
-<div id="q2" class="page"><div class="card"><h2>Our first meet? ☺️</h2><button onclick="next('q3')">Of course</button></div></div>
-<div id="q3" class="page"><div class="card"><h2>First bike ride together? 🏍️</h2><button onclick="next('q4')">I do</button></div></div>
-<div id="q4" class="page"><div class="card"><h2>First kiss? ❤️</h2><button onclick="next('letter');startLetter(){document.body.classList.add('heartBeatBg');">Always remember</button></div></div><!-- LETTER --><div id="letter" class="page"><div class="card"><h2>Read this slowly 💌</h2><p id="love"></p><br><button onclick="next('final')">Continue</button></div></div><!-- FINAL --><div id="final" class="page"><div class="card">
-<h1>Will you be my Valentine?</h1>
-<button onclick="celebrate()">YES 💘</button>
+<body><div id="start" class="page show">
+<div class="card">
+<h2>Play song first 🎧</h2>
+<p>Tap below — then continue</p>
+<button onclick="startExperience()">Play & Start</button>
+</div>
+</div><div id="q" class="page">
+<div class="card">
+<h2 id="qText"></h2>
+<button onclick="nextQ()">Always remember ❤️</button>
+</div>
+</div><div id="letterPage" class="page">
+<div class="card">
+<h2>For you…</h2>
+<p id="letter"></p>
+<button onclick="showProposal()">Continue 💌</button>
+</div>
+</div><div id="proposal" class="page">
+<div class="card">
+<h1>Will you be my Valentine? 💘</h1>
+<button onclick="yesAction()">YES</button>
 <button id="noBtn2" onmouseover="move(this)">No</button>
-</div></div><script>
-function startAll(){let s=document.getElementById('song');s.currentTime=0;s.volume=1;s.play().catch(()=>{});next('q1')}
-function next(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));document.getElementById(id).classList.add('show')}
-function move(btn){btn.style.left=Math.random()*80+'%';btn.style.top=Math.random()*80+'%'}
+</div>
+</div><script>
+const spotify="https://open.spotify.com/track/5jkH9Pgv28mW9ve6uGtohT";
+const name="Choyal ❤️";
 
-const msg=`Hi choyal
-Namma first friends dhaan… casual talks, random laughs...
-You are my safest place 🤍
-Always yours 🫶`;
-let i=0;function startLetter(){document.getElementById('beat').play().catch(()=>{});type()}function type(){if(i<msg.length){document.getElementById('love').innerText+=msg.charAt(i);i++;setTimeout(type,35)}}
+const questions=[
+"Do you remember our first chat? 💬",
+"Our first meet? 🥹",
+"First bike ride? 🏍️",
+"First hug? 🤍",
+"First kiss? ❤️"
+];
+let qi=0;
 
-function celebrate(){document.body.classList.remove('heartBeatBg');document.getElementById('beat').pause();for(let i=0;i<250;i++){let h=document.createElement('div');h.innerText='💖';h.style.position='fixed';h.style.left=Math.random()*100+'%';h.style.top='100%';h.style.fontSize=(20+Math.random()*40)+'px';h.style.transition='3s linear';document.body.appendChild(h);setTimeout(()=>{h.style.top='-10%';h.style.opacity='0'},50);setTimeout(()=>h.remove(),3000)}flash();confetti();setTimeout(()=>{window.location.href='https://wa.me/?text=I%20said%20YES%20❤️'},2000)}
+function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));document.getElementById(id).classList.add('show')}
 
-function flash(){let f=document.createElement('div');f.style.position='fixed';f.style.inset=0;f.style.background='white';document.body.appendChild(f);setTimeout(()=>f.remove(),150)}
+function startExperience(){window.open(spotify,'_blank');show('q');ask()}
+function ask(){document.getElementById('qText').innerText=name+"
+"+questions[qi]}
+function nextQ(){qi++; if(qi<questions.length){ask()} else {typeLetter()}}
 
-function confetti(){for(let i=0;i<120;i++){let c=document.createElement('div');c.style.position='fixed';c.style.width='8px';c.style.height='8px';c.style.background=`hsl(${Math.random()*360},100%,60%)`;c.style.left=Math.random()*100+'%';c.style.top='-10px';c.style.transition='3s linear';document.body.appendChild(c);setTimeout(()=>{c.style.top='110%'},50);setTimeout(()=>c.remove(),3000)}}
+function typeLetter(){show('letterPage');document.body.classList.add('pulse');let text=`Hi choyal
+Namma first friends dhaan… casual talks, random laughs, time pass chats…
+Aana epdi nu theriyama slowly nee en life-la romba mukkiyam aayita 🥺
+Friends irundhathu romba azhaga irundhuchu… aana lovers aana apram dhaan purinjidhu
+you are actually the best version of my life.
+Nee dhaan en sunshine ☀️
+Yaaralum enna ipdi happy a make panna mudiyadhu whole life-la…
+When the whole world feels against me, I run to you… because you are my safest place 🤍
+Un kooda pesama oru naalum complete aagathu…
+Kuty kuty sanda poduvom 😤… rendu nimisham pesama irupom…
+aana adhuvum namma love-ah strong aakudhu 💞
+And honestly… andha sanda kuda enaku romba pudikum…
+because adhu mudinja apram nee enna konjam extra care panra moment dhaan my favourite 🥹
+Enaku nee romba romba pudikum…
+Life la enna nadandhaalum forever dhaan 🤞
+Happy Valentine’s Day 💘
+Always yours 🫶
+Dhivya`;
+let i=0;let el=document.getElementById('letter');let t=setInterval(()=>{el.innerText+=text[i++];if(i>=text.length)clearInterval(t)},28)}
 
-setInterval(()=>{let n=document.createElement('div');n.className='floatName';n.innerText='Choyal ❤️';n.style.left=Math.random()*100+'%';n.style.fontSize=(12+Math.random()*18)+'px';document.body.appendChild(n);setTimeout(()=>n.remove(),8000)},700);
+function showProposal(){document.body.classList.remove('pulse');show('proposal')}
+
+function yesAction(){for(let i=0;i<80;i++){let h=document.createElement('div');h.className='floatName';h.innerText=name;h.style.left=Math.random()*100+'%';h.style.fontSize=(14+Math.random()*26)+'px';document.body.appendChild(h);setTimeout(()=>h.remove(),8000)}alert('Text me how you feel 🥹')}
+
+function move(b){b.style.left=Math.random()*80+'%';b.style.top=Math.random()*80+'%'}
 </script></body>
 </html>
