@@ -1,149 +1,42 @@
 <!DOCTYPE html><html>
 <head>
 <meta charset="UTF-8">
-<title>For You ❤️</title><style>
-body{
-margin:0;
-font-family:'Comic Sans MS',cursive;
-text-align:center;
-color:white;
-overflow:hidden;
-background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb,#a6c1ee);
-background-size:400% 400%;
-animation:bg 12s infinite alternate;
-}
-@keyframes bg{0%{background-position:0% 50%;}100%{background-position:100% 50%;}}
-
-.page{display:none;padding-top:18vh;}
-.show{display:block;}
-
-.card{
-background:rgba(255,255,255,0.25);
-backdrop-filter:blur(10px);
-padding:25px;
-border-radius:25px;
-margin:20px;
-transition:1s;
-}
-
-button{
-padding:12px 28px;
-font-size:18px;
-border:none;
-border-radius:40px;
-margin:10px;
-cursor:pointer;
-background:linear-gradient(45deg,#ff4d88,#ff9a9e);
-color:white;
-}
-
-#noBtn,#noBtn2{position:absolute;}
-.hack{font-family:monospace;color:#00ff9c;}
-
-.heartName{
-position:fixed;
-bottom:-20px;
-animation:float 7s linear infinite;
-}
-@keyframes float{to{transform:translateY(-110vh);opacity:0;}}
-
-#gameHeart{font-size:45px;cursor:pointer;}
-
-/* FINAL PAGE CINEMATIC */
-#p4{background:radial-gradient(circle at center,#ff6a88,#0b0014 70%);animation:fadeIn 1.5s;}
-@keyframes fadeIn{from{opacity:0;transform:scale(1.2);}to{opacity:1;transform:scale(1);}}
-
-#p4 img{box-shadow:0 0 35px rgba(255,150,200,0.8);margin-top:10px;}
-
-#p4 p{font-size:18px;line-height:1.6;white-space:pre-line;width:90%;margin:auto;}
-
-#p4 h1{font-size:34px;text-shadow:0 0 20px #ff9acb,0 0 40px #ff4da6;animation:pulse 1.5s infinite alternate;}
-@keyframes pulse{from{transform:scale(1);}to{transform:scale(1.08);}}
-</style></head><body><div id="p1" class="page show">
-<div class="card">
-<h2>Hey you 😌</h2>
-<p>Don't skip this...</p>
-<button onclick="next('p2')">Open 💌</button>
-</div>
-</div><div id="p2" class="page">
-<div class="card">
-<h2>Do you trust me?</h2>
-<button onclick="next('hack')">Yes</button>
-<button id="noBtn" onmouseover="move(this)">No</button>
-</div>
-</div><div id="hack" class="page">
-<div class="card hack">
-<h2>Accessing Heart Database...</h2>
-<p id="hackText"></p>
-</div>
-</div><div id="game" class="page">
-<div class="card">
-<h2>Catch 5 hearts to unlock ❤️</h2>
-<div id="gameHeart">💗</div>
-<p id="score">0/5</p>
-</div>
-</div><div id="count" class="page">
-<div class="card">
-<h2>Confession unlocking in</h2>
-<h1 id="timer">5</h1>
-</div>
-</div><div id="p4" class="page">
-<div class="card"><img src="https://i.ibb.co/LGyNjfX/IMG-20231112-WA0024.jpg" width="220">
-<img src="https://i.ibb.co/KcjBFwpc/IMG-20250330-WA0093.jpg" width="220"><p>Play this before reading… 🎧</p>
-<iframe style="border-radius:20px;margin-top:10px"
-src="https://open.spotify.com/embed/track/5jkH9Pgv28mW9ve6uGtohT"
-width="300" height="80" frameBorder="0"
-allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe><p>Hiii choyal kuttyyyyy ❤️
-...
-Forever yours,
-Dhivya 🫶✨
-
-</p><h1>Will you be my Valentine?</h1>
-<button onclick="celebrate()">YES 💘</button>
-<button id="noBtn2" onmouseover="move(this)">No</button></div>
-</div><script>
-const hisName="Choyal Kuttyyyyy ❤️";
-
-function next(id){
-document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
-document.getElementById(id).classList.add('show');
-if(id==='hack')hackAnim();
-}
-function move(btn){btn.style.left=Math.random()*80+'%';btn.style.top=Math.random()*80+'%';}
-
-function hackAnim(){
-let lines=["Bypassing firewall...","Decrypting emotions...","Reading memories...","Heart matched ✔"];
-let i=0;
-let t=setInterval(()=>{
-document.getElementById('hackText').innerHTML+=lines[i++]+"<br>";
-if(i==lines.length){clearInterval(t);setTimeout(()=>next('game'),1200);}
-},900);
-}
-
-let score=0;
-document.getElementById('gameHeart').onclick=()=>{
-score++;document.getElementById('score').innerText=score+"/5";
-if(score==5)setTimeout(()=>countdown(),800);
-};
-
-function countdown(){
-next('count');let n=5;
-let t=setInterval(()=>{
-document.getElementById('timer').innerText=n--;
-if(n<0){clearInterval(t);next('p4');}
-},1000);
-}
-
-setInterval(()=>{
-let h=document.createElement('div');
-h.className='heartName';
-h.innerText=hisName;
-h.style.left=Math.random()*100+'%';
-h.style.fontSize=(12+Math.random()*20)+'px';
-document.body.appendChild(h);
-setTimeout(()=>h.remove(),7000);
-},600);
-
-function celebrate(){alert("Hehe I knew it ❤️");}
-</script></body>
+<title>For You ❤️</title>
+<style>
+body{margin:0;font-family:'Comic Sans MS',cursive;text-align:center;color:white;overflow-x:hidden;overflow-y:auto;background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fbc2eb,#a6c1ee);background-size:400% 400%;animation:bg 12s infinite alternate}
+@keyframes bg{0%{background-position:0% 50%}100%{background-position:100% 50%}}
+.page{display:none;padding-top:14vh}.show{display:block}
+.card{background:rgba(255,255,255,0.25);backdrop-filter:blur(10px);padding:22px;border-radius:25px;margin:18px;max-height:85vh;overflow-y:auto}
+button{padding:12px 28px;font-size:18px;border:none;border-radius:40px;margin:10px;cursor:pointer;background:linear-gradient(45deg,#ff4d88,#ff9a9e);color:white}
+#noBtn,#noBtn2{position:absolute}
+.hack{font-family:monospace;color:#00ff9c}
+.heartName{position:fixed;bottom:-20px;animation:float 7s linear infinite}
+@keyframes float{to{transform:translateY(-110vh);opacity:0}}
+#p4{background:radial-gradient(circle at center,#ff6a88,#0b0014 70%);animation:fadeIn 1.5s}
+@keyframes fadeIn{from{opacity:0;transform:scale(1.2)}to{opacity:1;transform:scale(1)}}
+#p4 h1{text-shadow:0 0 20px #ff9acb,0 0 40px #ff4da6;animation:pulse 1.5s infinite alternate}
+@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.08)}}
+</style>
+</head>
+<body>
+<div id="startGate" style="position:fixed;inset:0;background:#000e;display:flex;align-items:center;justify-content:center;z-index:9999"><div style="background:#111;padding:25px;border-radius:20px"><h2>Before anything… 🎧</h2><p>Play the song first</p><button onclick="enterSite()">Start</button></div></div>
+<div id="p1" class="page show"><div class="card"><h2>Hey you 😌</h2><button onclick="next('p2')">Open 💌</button></div></div>
+<div id="p2" class="page"><div class="card"><h2>Do you trust me?</h2><button onclick="next('hack')">Yes</button><button id="noBtn" onmouseover="move(this)">No</button></div></div>
+<div id="hack" class="page"><div class="card hack"><h2>Accessing Heart Database...</h2><p id="hackText"></p></div></div>
+<div id="game" class="page"><div class="card"><h2>Catch 5 hearts to unlock ❤️</h2><div id="gameHeart" style="font-size:50px">💗</div><p id="score">0/5</p></div></div>
+<div id="count" class="page"><div class="card"><h2>Confession unlocking in</h2><h1 id="timer">5</h1></div></div>
+<div id="letter" class="page"><div class="card"><h2>Wait… read this first 🥺</h2><p id="loveText" style="white-space:pre-line;text-align:left"></p><br><button onclick="next('p4')">Continue ❤️</button></div></div>
+<div id="p4" class="page"><div class="card"><img src="https://i.ibb.co/LGyNjfX/IMG-20231112-WA0024.jpg" width="220"><br><img src="https://i.ibb.co/KcjBFwpc/IMG-20250330-WA0093.jpg" width="220"><p>Play this before reading… 🎧</p><iframe style="border-radius:20px;margin-top:10px" src="https://open.spotify.com/embed/track/5jkH9Pgv28mW9ve6uGtohT" width="300" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe><h1>Will you be my Valentine?</h1><button onclick="celebrate()">YES 💘</button><button id="noBtn2" onmouseover="move(this)">No</button></div></div>
+<script>
+function enterSite(){document.getElementById('startGate').style.display='none'}
+function next(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));document.getElementById(id).classList.add('show');if(id==='hack')hackAnim()}
+function move(btn){btn.style.left=Math.random()*80+'%';btn.style.top=Math.random()*80+'%'}
+function hackAnim(){let lines=["Bypassing firewall...","Decrypting emotions...","Reading memories...","Heart matched ✔"];let i=0;let t=setInterval(()=>{document.getElementById('hackText').innerHTML+=lines[i++]+"<br>";if(i==lines.length){clearInterval(t);setTimeout(()=>next('game'),1200)}},900)}
+let score=0;document.getElementById('gameHeart').onclick=()=>{score++;document.getElementById('score').innerText=score+'/5';if(score==5)setTimeout(()=>countdown(),800)}
+function countdown(){next('count');let n=5;let t=setInterval(()=>{document.getElementById('timer').innerText=n--;if(n<0){clearInterval(t);next('letter');startLetter()}},1000)}
+const fullMsg=`Hi choyal\nNamma first friends dhaan… casual talks, random laughs, time pass chats…\nAana epdi nu theriyama slowly nee en life-la romba mukkiyam aayita 🥺\nFriends irundhathu romba azhaga irundhuchu… aana lovers aana apram dhaan purinjidhu\nyou are actually the best version of my life.\nNee dhaan en sunshine ☀️\nYaaralum enna ipdi happy a make panna mudiyadhu whole life-la…\nWhen the whole world feels against me, I run to you… because you are my safest place 🤍\nUn kooda pesama oru naalum complete aagathu…\nKuty kuty sanda poduvom 😤… rendu nimisham pesama irupom…\naana adhuvum namma love-ah innum strong dhaan aakudhu 💞\nAnd honestly… andha sanda kuda enaku romba pudikum…\nbecause adhu mudinja apram nee enna konjam extra care panra moment dhaan my favourite 🥹\nEnaku nee romba romba pudikum… like seriously…\nNee irukra place dhaan en comfort, en happiness, en calmness ✨\nLife la enna nadandhaalum…\nfriends-ah start pannina namma story, forever-ah mudiyanum nu dhaan en aasai 🤞\nHappy Valentine’s Day daaa 💘\nAlways yours 🫶`;
+let li=0;function startLetter(){document.getElementById('loveText').innerHTML='';typeLetter()}function typeLetter(){if(li<fullMsg.length){document.getElementById('loveText').innerHTML+=fullMsg.charAt(li);li++;setTimeout(typeLetter,35)}}
+function celebrate(){for(let i=0;i<220;i++){let h=document.createElement('div');h.innerText='💖';h.style.position='fixed';h.style.left=Math.random()*100+'%';h.style.top='100%';h.style.fontSize=(20+Math.random()*45)+'px';h.style.transition='3s linear';document.body.appendChild(h);setTimeout(()=>{h.style.top='-10%';h.style.opacity='0'},50);setTimeout(()=>h.remove(),3000)}setTimeout(()=>{window.location.href='https://wa.me/?text=I%20said%20YES%20❤️'},2000)}
+</script>
+</body>
 </html>
