@@ -18,10 +18,7 @@ animation:bg 12s infinite alternate;
 touch-action:manipulation;
 }
 
-@keyframes bg{
-0%{background-position:0% 50%}
-100%{background-position:100% 50%}
-}
+@keyframes bg{0%{background-position:0% 50%}100%{background-position:100% 50%}}
 
 .page{
 display:none;
@@ -59,6 +56,8 @@ margin:10px;
 cursor:pointer;
 z-index:10;
 position:relative;
+-webkit-tap-highlight-color: transparent;
+touch-action:manipulation;
 }
 
 button:active{transform:scale(.95)}
@@ -75,13 +74,11 @@ position:fixed;
 bottom:-20px;
 animation:up 8s linear infinite;
 opacity:.8;
-pointer-events:none; /* IMPORTANT FIX */
+pointer-events:none;
 z-index:1;
 }
 
-@keyframes up{
-to{transform:translateY(-120vh);opacity:0}
-}
+@keyframes up{to{transform:translateY(-120vh);opacity:0}}
 
 #letter{
 white-space:pre-line;
@@ -91,11 +88,7 @@ min-height:200px;
 }
 
 .pulse{animation:pulseBg 1s infinite alternate}
-
-@keyframes pulseBg{
-from{filter:brightness(1)}
-to{filter:brightness(1.25)}
-}
+@keyframes pulseBg{from{filter:brightness(1)}to{filter:brightness(1.25)}}
 </style>
 </head>
 
@@ -133,7 +126,8 @@ to{filter:brightness(1.25)}
 </div>
 
 <script>
-const spotify="https://open.spotify.com/track/5jkH9Pgv28mW9ve6uGtohT";
+
+const spotify="https://open.spotify.com/track/5jkH9Pgv28mW9ve6uGtohT?si=SZ19qpJiQ8iNSmpqHk-zXw";
 const name="Choyal ❤️";
 
 const questions=[
@@ -151,12 +145,22 @@ document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
 document.getElementById(id).classList.add('show');
 }
 
+/* ⭐ FIXED FUNCTION */
 function startExperience(){
-window.location.href=spotify; // mobile friendly
+
+// open spotify but DO NOT navigate away
+let win=window.open(spotify,'_blank');
+
+if(!win){
+alert("Allow popups for music 🎧 then tap again ❤️");
+return;
+}
+
+// continue experience after small delay
 setTimeout(()=>{
 show('q');
 ask();
-},800);
+},1200);
 }
 
 function ask(){
@@ -187,13 +191,8 @@ Aana epdi nu theriyama slowly nee en life-la romba mukkiyam aayita 🥺
 Friends irundhathu romba azhaga irundhuchu… aana lovers aana apram dhaan purinjidhu
 you are actually the best version of my life.
 Nee dhaan en sunshine ☀️
-Yaaralum enna ipdi happy a make panna mudiyadhu whole life-la…
 When the whole world feels against me, I run to you… because you are my safest place 🤍
 Un kooda pesama oru naalum complete aagathu…
-Kuty kuty sanda poduvom 😤… rendu nimisham pesama irupom…
-aana adhuvum namma love-ah strong aakudhu 💞
-And honestly… andha sanda kuda enaku romba pudikum…
-because adhu mudinja apram nee enna konjam extra care panra moment dhaan my favourite 🥹
 Enaku nee romba romba pudikum…
 Life la enna nadandhaalum forever dhaan 🤞
 Happy Valentine’s Day 💘
@@ -233,7 +232,7 @@ let y=Math.random()*70+10;
 b.style.left=x+'%';
 b.style.top=y+'%';
 }
-</script>
 
+</script>
 </body>
 </html>
