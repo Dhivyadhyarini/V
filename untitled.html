@@ -15,7 +15,6 @@ overflow:hidden;
 background:linear-gradient(135deg,#ff7aa2,#ff9a9e,#fbc2eb,#a18cd1);
 background-size:400% 400%;
 animation:bg 12s infinite alternate;
-touch-action:manipulation;
 }
 
 @keyframes bg{0%{background-position:0% 50%}100%{background-position:100% 50%}}
@@ -54,13 +53,10 @@ color:#fff;
 font-size:18px;
 margin:10px;
 cursor:pointer;
-z-index:10;
-position:relative;
 -webkit-tap-highlight-color: transparent;
-touch-action:manipulation;
 }
 
-button:active{transform:scale(.95)}
+#player{display:none;margin-top:15px}
 
 #noBtn2{
 position:absolute;
@@ -75,33 +71,39 @@ bottom:-20px;
 animation:up 8s linear infinite;
 opacity:.8;
 pointer-events:none;
-z-index:1;
 }
 
 @keyframes up{to{transform:translateY(-120vh);opacity:0}}
 
-#letter{
-white-space:pre-line;
-font-size:18px;
-line-height:1.7;
-min-height:200px;
-}
-
-.pulse{animation:pulseBg 1s infinite alternate}
-@keyframes pulseBg{from{filter:brightness(1)}to{filter:brightness(1.25)}}
+#letter{white-space:pre-line;font-size:18px;line-height:1.7;min-height:200px}
 </style>
 </head>
 
 <body>
 
+<!-- START -->
 <div id="start" class="page show">
 <div class="card">
 <h2>Play song first 🎧</h2>
 <p>Tap below — then continue</p>
+
 <button onclick="startExperience()">Play & Start</button>
+
+<!-- SPOTIFY EMBED -->
+<div id="player">
+<iframe style="border-radius:12px"
+src="https://open.spotify.com/embed/track/5jkH9Pgv28mW9ve6uGtohT"
+width="100%" height="80"
+frameBorder="0"
+allowfullscreen=""
+allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+</iframe>
+</div>
+
 </div>
 </div>
 
+<!-- QUESTIONS -->
 <div id="q" class="page">
 <div class="card">
 <h2 id="qText"></h2>
@@ -109,6 +111,7 @@ min-height:200px;
 </div>
 </div>
 
+<!-- LETTER -->
 <div id="letterPage" class="page">
 <div class="card">
 <h2>For you…</h2>
@@ -117,6 +120,7 @@ min-height:200px;
 </div>
 </div>
 
+<!-- PROPOSAL -->
 <div id="proposal" class="page">
 <div class="card">
 <h1>Will you be my Valentine? 💘</h1>
@@ -126,8 +130,6 @@ min-height:200px;
 </div>
 
 <script>
-
-const spotify="https://open.spotify.com/track/5jkH9Pgv28mW9ve6uGtohT?si=SZ19qpJiQ8iNSmpqHk-zXw";
 const name="Choyal ❤️";
 
 const questions=[
@@ -145,22 +147,14 @@ document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));
 document.getElementById(id).classList.add('show');
 }
 
-/* ⭐ FIXED FUNCTION */
+/* PLAY INSIDE PAGE */
 function startExperience(){
+document.getElementById("player").style.display="block";
 
-// open spotify but DO NOT navigate away
-let win=window.open(spotify,'_blank');
-
-if(!win){
-alert("Allow popups for music 🎧 then tap again ❤️");
-return;
-}
-
-// continue experience after small delay
 setTimeout(()=>{
 show('q');
 ask();
-},1200);
+},1800);
 }
 
 function ask(){
@@ -168,10 +162,6 @@ document.getElementById('qText').innerText=name+"\n"+questions[qi];
 }
 
 function nextQ(){
-const btn=document.querySelector('#q button');
-btn.disabled=true;
-setTimeout(()=>{btn.disabled=false;},350);
-
 qi++;
 if(qi<questions.length){
 ask();
@@ -183,18 +173,9 @@ setTimeout(typeLetter,300);
 }
 
 function typeLetter(){
-document.body.classList.add('pulse');
-
 let text=`Hi choyal
-Namma first friends dhaan… casual talks, random laughs, time pass chats…
-Aana epdi nu theriyama slowly nee en life-la romba mukkiyam aayita 🥺
-Friends irundhathu romba azhaga irundhuchu… aana lovers aana apram dhaan purinjidhu
-you are actually the best version of my life.
-Nee dhaan en sunshine ☀️
-When the whole world feels against me, I run to you… because you are my safest place 🤍
-Un kooda pesama oru naalum complete aagathu…
-Enaku nee romba romba pudikum…
-Life la enna nadandhaalum forever dhaan 🤞
+You slowly became the most important person in my life 🥺
+When everything feels wrong, you feel like home 🤍
 Happy Valentine’s Day 💘
 Always yours 🫶
 Dhivya`;
@@ -208,10 +189,7 @@ if(i>=text.length)clearInterval(t);
 },28);
 }
 
-function showProposal(){
-document.body.classList.remove('pulse');
-show('proposal');
-}
+function showProposal(){show('proposal')}
 
 function yesAction(){
 for(let i=0;i<80;i++){
@@ -232,7 +210,7 @@ let y=Math.random()*70+10;
 b.style.left=x+'%';
 b.style.top=y+'%';
 }
-
 </script>
+
 </body>
 </html>
