@@ -16,7 +16,7 @@ button{padding:12px 24px;font-size:18px;border:none;border-radius:40px;margin:10
 @keyframes float{to{transform:translateY(-120vh);opacity:0}}
 </style>
 </head>
-<body><!-- AUDIO --><audio id="song" src="https://open.spotify.com/track/5jkH9Pgv28mW9ve6uGtohT"></audio> <audio id="beat" loop src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d1b1c3a3b.mp3"></audio>
+<body><!-- AUDIO --><audio id="song" loop src="https://open.spotify.com/track/5jkH9Pgv28mW9ve6uGtohT"></audio> <audio id="beat" loop src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_6d1b1c3a3b.mp3"></audio>
 
 <!-- START --><div id="start" class="page show"><div class="card"><h2>Put volume high 🎧</h2><button onclick="startAll()">Play & Start</button></div></div><!-- QUESTIONS --><div id="q1" class="page"><div class="card"><h2>Do you remember our first chat? 🥺</h2><button onclick="next('q2')">Yes</button></div></div>
 <div id="q2" class="page"><div class="card"><h2>Our first meet? ☺️</h2><button onclick="next('q3')">Of course</button></div></div>
@@ -26,7 +26,7 @@ button{padding:12px 24px;font-size:18px;border:none;border-radius:40px;margin:10
 <button onclick="celebrate()">YES 💘</button>
 <button id="noBtn2" onmouseover="move(this)">No</button>
 </div></div><script>
-function startAll(){document.getElementById('song').play().catch(()=>{});next('q1')}
+function startAll(){let s=document.getElementById('song');s.currentTime=0;s.volume=1;s.play().catch(()=>{});next('q1')}
 function next(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('show'));document.getElementById(id).classList.add('show')}
 function move(btn){btn.style.left=Math.random()*80+'%';btn.style.top=Math.random()*80+'%'}
 
